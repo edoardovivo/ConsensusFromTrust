@@ -5,9 +5,18 @@ import java.util.Set;
 
 /* CompliantNode refers to a node that follows the rules (not malicious)*/
 public class CompliantNode implements Node {
-
-    public CompliantNode(double p_graph, double p_malicious, double p_txDistribution, int numRounds) {
+	
+	double p_graph;
+	double p_malicious;
+	double p_txDistribution; 
+	int numRounds;
+    
+	public CompliantNode(double p_graph, double p_malicious, double p_txDistribution, int numRounds) {
         // IMPLEMENT THIS
+		this.p_graph = p_graph;
+		this.p_malicious = p_malicious;
+		this.p_txDistribution = p_txDistribution;
+		this.numRounds = numRounds;
     }
 
     public void setFollowees(boolean[] followees) {
