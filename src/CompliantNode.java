@@ -10,6 +10,9 @@ public class CompliantNode implements Node {
 	double p_malicious;
 	double p_txDistribution; 
 	int numRounds;
+	boolean[] followees;
+	Set<Transaction> pendingTransactions;
+	Set<Candidate> candidates;
     
 	public CompliantNode(double p_graph, double p_malicious, double p_txDistribution, int numRounds) {
         // IMPLEMENT THIS
@@ -21,10 +24,12 @@ public class CompliantNode implements Node {
 
     public void setFollowees(boolean[] followees) {
         // IMPLEMENT THIS
+    	this.followees = followees;
     }
 
     public void setPendingTransaction(Set<Transaction> pendingTransactions) {
         // IMPLEMENT THIS
+    	this.pendingTransactions = pendingTransactions;
     }
 
     public Set<Transaction> sendToFollowers() {
@@ -33,5 +38,6 @@ public class CompliantNode implements Node {
 
     public void receiveFromFollowees(Set<Candidate> candidates) {
         // IMPLEMENT THIS
+    	this.candidates = candidates;
     }
 }
