@@ -34,23 +34,38 @@ public class CompliantNode implements Node {
     }
 
     public Set<Transaction> sendToFollowers() {
-        Set<Transaction> txToSend = new HashSet<Transaction>();
-        Set<Transaction> txCandidates = new HashSet<Transaction>();
-        txToSend = pendingTransactions;
-        try {
-	        for (Candidate candidate : candidates) {
+    	
+    	if (candidates != null) {
+    		Set<Transaction> txCandidates = new HashSet<Transaction>();
+    		for (Candidate candidate : candidates) {
 	        	txCandidates.add(candidate.tx);
 	        }
-        } catch (java.lang.NullPointerException e) {
-        	//
-        }
-        txToSend.addAll(txCandidates);
-        
-    	return txToSend;
+    		Set<Transaction> txIntersect = new HashSet<Transaction>();
+    		Set<Transaction> txUnion = new HashSet<Transaction>();
+    		txIntersect = pendingTransactions;
+    		txIntersect.retainAll(txCandidates);
+    		txUnion = pendingTransactions;
+    		txUnion.addAll(txCandidates);
+    		if (txIntersect.size() > 0) {
+    			System.out.println("Intersection");
+    			pendingTransactions.removeAll(txCandidates);
+    			return txCandidates;
+    		}
+    		else {
+    			//System.out.println("Union");
+    			//pendingTransactions.addAll(txCandidates);
+    			return txCandidates; 
+    		}
+    	}
+    	else {
+    
+    		return pendingTransactions;
+    	}
     }
 
     public void receiveFromFollowees(Set<Candidate> candidates) {
         // IMPLEMENT THIS
     	this.candidates = candidates;
     }
+    	
 }
