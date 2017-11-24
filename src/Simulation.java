@@ -124,6 +124,25 @@ public class Simulation {
          System.out.println();
          System.out.println();
       }
+      
+      //Number of nodes that reached consensus
+      HashMap<Integer, Set<Transaction>> allFinalProposals = new HashMap<>();
+      for (int i = 0; i < numNodes; i++) {
+          Set<Transaction> transactions = nodes[i].sendToFollowers();
+          allFinalProposals.put(i, transactions);
+      }
+      int cntConsensus = 0;
+      for (int i = 0; i < numNodes; i++) {
+    	  for (int j=i+1;j< numNodes; j++) {
+    		  if (allFinalProposals.get(i) ==  allFinalProposals.get(j)) {
+    			  cntConsensus += 1;
+    		  }
+    	  }
+      }
+      
+      System.out.println("Total number of nodes: " + numNodes);
+      System.out.println("Number of nodes that reached consensus: " + cntConsensus);
+      
 
    }
 
