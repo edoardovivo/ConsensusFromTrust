@@ -1,6 +1,7 @@
 package src;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 /* CompliantNode refers to a node that follows the rules (not malicious)*/
@@ -33,7 +34,19 @@ public class CompliantNode implements Node {
     }
 
     public Set<Transaction> sendToFollowers() {
-        // IMPLEMENT THIS
+        Set<Transaction> txToSend = new HashSet<Transaction>();
+        Set<Transaction> txCandidates = new HashSet<Transaction>();
+        txToSend = pendingTransactions;
+        try {
+	        for (Candidate candidate : candidates) {
+	        	txCandidates.add(candidate.tx);
+	        }
+        } catch (java.lang.NullPointerException e) {
+        	//
+        }
+        txToSend.addAll(txCandidates);
+        
+    	return txToSend;
     }
 
     public void receiveFromFollowees(Set<Candidate> candidates) {
