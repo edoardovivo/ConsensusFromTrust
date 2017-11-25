@@ -47,14 +47,14 @@ public class CompliantNode implements Node {
     		txUnion = pendingTransactions;
     		txUnion.addAll(txCandidates);
     		if (txIntersect.size() > 0) {
-    			System.out.println("Intersection");
+    			//System.out.println("Intersection");
     			pendingTransactions.removeAll(txCandidates);
     			return txCandidates;
     		}
     		else {
     			//System.out.println("Union");
-    			//pendingTransactions.addAll(txCandidates);
-    			return txCandidates; 
+    			pendingTransactions.addAll(txCandidates);
+    			return pendingTransactions; 
     		}
     	}
     	else {

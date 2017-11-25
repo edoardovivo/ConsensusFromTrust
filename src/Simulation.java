@@ -122,11 +122,13 @@ public class Simulation {
       for (int i = 0; i < numNodes; i++) {
          Set<Transaction> transactions = nodes[i].sendToFollowers();
          allFinalProposals.put(i, transactions);
+         /*
          System.out.println("Transaction ids that Node " + i + " believes consensus on:");
          for (Transaction tx : transactions)
             System.out.println(tx.id);
          System.out.println();
          System.out.println();
+         */
       }
       
       //Number of nodes that reached consensus
@@ -151,6 +153,11 @@ public class Simulation {
     	  
       }
       
+      System.out.println("p_graph: " + p_graph);
+      System.out.println("p_malicious: " + p_malicious);
+      System.out.println("p_txDistribution: " + p_txDistribution);
+      System.out.println("numRounds: " + numRounds);
+      
       for (Map.Entry<Integer, HashSet<Integer>> entry : cntConsensus.entrySet()) {
 		  Integer key = entry.getKey();
 		  HashSet<Integer> value = entry.getValue();
@@ -160,6 +167,8 @@ public class Simulation {
 		  System.out.println("Total number of nodes: " + numNodes);
 	    	  
     	}
+      System.out.println("-------------\n");
+      System.out.println("\n");
       
 
    }
