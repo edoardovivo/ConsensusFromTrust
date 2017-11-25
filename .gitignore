@@ -4,4 +4,7 @@
 bin
 bin/*
 *.pdf
+argScript/*.txt
+argScript/.*.swp
+
 
