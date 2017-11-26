@@ -1,3 +1,5 @@
+package src;
+
 // Example of a Simulation. This test runs the nodes on a random graph.
 // At the end, it will print out the Transaction ids which each node
 // believes consensus has been reached upon. You can use this simulation to
@@ -5,8 +7,10 @@
 // mixing them in the network to fully test.
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Simulation {
@@ -27,14 +31,16 @@ public class Simulation {
       // pick which nodes are malicious and which are compliant
       Node[] nodes = new Node[numNodes];
       for (int i = 0; i < numNodes; i++) {
-         if(Math.random() < p_malicious)
+         if(Math.random() < p_malicious) {
             // When you are ready to try testing with malicious nodes, replace the
             // instantiation below with an instantiation of a MaliciousNode
-            //nodes[i] = new MalDoNothing(p_graph, p_malicious, p_txDistribution, numRounds);
-         else
+            nodes[i] = new MaliciousNode(p_graph, p_malicious, p_txDistribution, numRounds);
+        	 //System.out.println("Do something");
+         }
+         else {
             nodes[i] = new CompliantNode(p_graph, p_malicious, p_txDistribution, numRounds);
+         }
       }
-
 
       // initialize random follow graph
       boolean[][] followees = new boolean[numNodes][numNodes]; // followees[i][j] is true iff i follows j
@@ -112,14 +118,58 @@ public class Simulation {
       }
 
       // print results
+      HashMap<Integer, Set<Transaction>> allFinalProposals = new HashMap<>();
       for (int i = 0; i < numNodes; i++) {
          Set<Transaction> transactions = nodes[i].sendToFollowers();
+         allFinalProposals.put(i, transactions);
+         /*
          System.out.println("Transaction ids that Node " + i + " believes consensus on:");
          for (Transaction tx : transactions)
             System.out.println(tx.id);
          System.out.println();
          System.out.println();
+         */
       }
+      
+      //Number of nodes that reached consensus
+      //The key is a the size of the set they reached consensus on. 
+      //The value the set of nodes that reached consensus. 
+      HashMap<Integer, HashSet<Integer>> cntConsensus = new HashMap<Integer, HashSet<Integer>>();
+      for (int i = 0; i < numNodes; i++) {
+    	   	for (int j=i+1; j< numNodes; j++) {
+    		  if (allFinalProposals.get(i).equals(allFinalProposals.get(j))) {
+    			  Integer[] arr = {i, j};
+    			  HashSet indexes = new HashSet();
+    			  indexes.addAll(Arrays.asList(arr));
+    			  int key = allFinalProposals.get(i).size();
+    			  if (cntConsensus.containsKey(key)) {
+    				  cntConsensus.get(key).addAll(indexes);
+    			  }
+    			  else {
+    				  cntConsensus.put(key, indexes);
+    			  }
+    		  }
+    	   	}
+    	  
+      }
+      
+      System.out.println("p_graph: " + p_graph);
+      System.out.println("p_malicious: " + p_malicious);
+      System.out.println("p_txDistribution: " + p_txDistribution);
+      System.out.println("numRounds: " + numRounds);
+      
+      for (Map.Entry<Integer, HashSet<Integer>> entry : cntConsensus.entrySet()) {
+		  Integer key = entry.getKey();
+		  HashSet<Integer> value = entry.getValue();
+		  
+		  System.out.println("Size of set: " + key);
+		  System.out.println("Number of nodes: " + value.size());
+		  System.out.println("Total number of nodes: " + numNodes);
+	    	  
+    	}
+      System.out.println("-------------\n");
+      System.out.println("\n");
+      
 
    }
 

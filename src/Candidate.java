@@ -1,3 +1,5 @@
+package src;
+
 public class Candidate {
 	Transaction tx;
 	int sender;

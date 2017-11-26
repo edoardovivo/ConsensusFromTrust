@@ -4,4 +4,9 @@
 bin
 bin/*
 *.pdf
+argScript/*.txt
+argScript/.*.swp
+submission
+*.class
+
 
