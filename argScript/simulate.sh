@@ -2,7 +2,7 @@
 
 jarlocation=$1
 all_pgraph=(0.1 0.2 0.3)
-all_pmalicious=(0) #(0.15 0.30 0.45)
+all_pmalicious=(0.15 0.30 0.45)
 all_ptxdistribution=(0.01 0.05 0.10)
 all_numrounds=(10 20)
 
